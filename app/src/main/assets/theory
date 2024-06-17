@@ -1,0 +1,53 @@
+ Coroutines
+
+1. coroutine scope  -> Lifetime of the coroutine
+2. coroutine context  -> on which thread coroutine will work
+
+Dispatchers
+1. Coroutines run on top of the thread
+2. Dispatchers is a way to define threads on which coroutine is to be executed
+3. Predefined dispatchers
+    Dispatchers.IO   -> for doing background operation
+    Dispatchers.Main  -> for doing operation on the main thread
+    Dispatchers.Default  -> For CPU intensive tasks such as sorting large list
+
+Coroutines helps to implement functionality that can be suspended & later resumed
+at specified points without blocking the thread.
+
+Suspending functions
+1. Functions with suspend modifiers
+2. Helps coroutine to suspend the computation at a particular point
+3. Suspending functions must be called from either Coroutines or Other Suspending Function
+
+Coroutine builders
+Functions that help in creating coroutine
+
+Use Launch - When you do not care about result.(Fire and Forget)
+Use Async - When you expect result/output from your coroutine
+            Deferred is generic type and will return the last statement as its type
+
+launch -> StandaloneCoroutine
+async -> DeferredCoroutine
+
+LifecycleScope - Attached to the lifecycle of the activity or fragment once
+                 destroyed the coroutines attached to it will get destroyed
+ViewModelScope - Attached to the viewModel once viewModel gets destroyed the
+                 the coroutines attached to it will also get destroyed.
+
+Coroutine Builders are extension functions of coroutine scopes which are used to launch a new coroutine.
+1. launch
+2. async
+3. produce
+4. runBlocking
+
+launch -> launch builder launches a new coroutine without blocking the current thread
+          Returns an instance of job, which can be used as a reference to the coroutine
+          We use this builder for coroutines the does not have a result as the return value
+Async -> Async builder launches a new coroutine without blocking  the current thread
+         Returns an instance of Deferred<T> .We need to invoke await()  to get the value : T -> String, Int
+         We use the builder for the coroutines that does have a result as the return value
+Produce -> Produce builder is for coroutines which produce a stream of elements
+           Returns an instance of receive channel
+RunBlocking -> The coroutine we create using this thread will block tht thread while coroutine is executing
+               Returns the result of type T
+               Mainly sued for testing
